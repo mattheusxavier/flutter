@@ -7,7 +7,19 @@ const request =
     "https://api.hgbrasil.com/finance?format=json-cors&key=0e5189b6";
 
 void main() async {
-  runApp(MaterialApp(home: Home()));
+  runApp(MaterialApp(
+    home: Home(),
+    theme: ThemeData(
+        hintColor: Colors.amber,
+        primaryColor: Colors.white,
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
+          hintStyle: TextStyle(color: Colors.amber),
+        )),
+  ));
 }
 
 Future<Map> getData() async {
@@ -58,6 +70,7 @@ class _HomeState extends State<Home> {
                   dolar = snapshot.data["results"]["currencies"]["USD"]["buy"];
                   euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
                   return SingleChildScrollView(
+                    padding: EdgeInsets.all(10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -68,9 +81,32 @@ class _HomeState extends State<Home> {
                         ),
                         TextField(
                           decoration: InputDecoration(
-                              labelText: "Reais",
-                              labelStyle: TextStyle(color: Colors.amber),
-                              border: OutlineInputBorder()),
+                            labelText: "Reais",
+                            labelStyle: TextStyle(color: Colors.amber),
+                            border: OutlineInputBorder(),
+                            prefixText: "R\$",
+                          ),
+                          style: TextStyle(color: Colors.amber, fontSize: 25.0),
+                        ),
+                        Divider(),
+                        TextField(
+                          decoration: InputDecoration(
+                            labelText: "Dolares",
+                            labelStyle: TextStyle(color: Colors.amber),
+                            border: OutlineInputBorder(),
+                            prefixText: "US\$",
+                          ),
+                          style: TextStyle(color: Colors.amber, fontSize: 25.0),
+                        ),
+                        Divider(),
+                        TextField(
+                          decoration: InputDecoration(
+                            labelText: "Euros",
+                            labelStyle: TextStyle(color: Colors.amber),
+                            border: OutlineInputBorder(),
+                            prefixText: "€\$",
+                          ),
+                          style: TextStyle(color: Colors.amber, fontSize: 25.0),
                         )
                       ],
                     ),
