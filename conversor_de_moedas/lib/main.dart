@@ -40,16 +40,40 @@ class _HomeState extends State<Home> {
   double dolar;
   double euro;
 
+  void _clearAll() {
+    realController.text = "";
+    dolarController.text = "";
+    euroController.text = "";
+  }
+
   void _realChanged(String text) {
-    print(text);
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
+    double real = double.parse(text);
+    dolarController.text = (real / dolar).toStringAsFixed(2);
+    euroController.text = (real / euro).toStringAsFixed(2);
   }
 
   void _dolarChanged(String text) {
-    print(text);
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
+    double dolar = double.parse(text);
+    realController.text = (dolar * this.dolar).toStringAsFixed(2);
+    euroController.text = (dolar * this.dolar / euro).toStringAsFixed(2);
   }
 
   void _euroChanged(String text) {
-    print(text);
+    if (text.isEmpty) {
+      _clearAll();
+      return;
+    }
+    double euro = double.parse(text);
+    realController.text = (euro * this.euro).toStringAsFixed(2);
+    dolarController.text = (euro * this.euro / dolar).toStringAsFixed(2);
   }
 
   @override
@@ -100,10 +124,10 @@ class _HomeState extends State<Home> {
                             "Reais", "R\$ ", realController, _realChanged),
                         Divider(),
                         buildTextField(
-                            "Dolares", "US\$ ", dolarController, _realChanged),
+                            "Dolares", "US\$ ", dolarController, _dolarChanged),
                         Divider(),
                         buildTextField(
-                            "Euros", "€\$ ", euroController, _realChanged),
+                            "Euros", "€\$ ", euroController, _euroChanged),
                       ],
                     ),
                   );
@@ -114,9 +138,10 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget buildTextField(String label, String prefix,
-    TextEditingController controller, Function changed) {
+Widget buildTextField(
+    String label, String prefix, TextEditingController controller, Function f) {
   return TextField(
+    controller: controller,
     decoration: InputDecoration(
       labelText: label,
       labelStyle: TextStyle(color: Colors.amber),
@@ -124,7 +149,7 @@ Widget buildTextField(String label, String prefix,
       prefixText: prefix,
     ),
     style: TextStyle(color: Colors.amber, fontSize: 25.0),
-    onChanged: changed,
-    keyboardType: TextInputType.number,
+    onChanged: f,
+    keyboardType: TextInputType.numberWithOptions(decimal: true),
   );
 }
