@@ -7,6 +7,7 @@ void main() {
     MaterialApp(
       home: HomePage(),
       theme: ThemeData(
+          hintColor: Colors.white,
           primaryColor: Colors.white,
           inputDecorationTheme: InputDecorationTheme(
             enabledBorder:
